@@ -1,0 +1,51 @@
+h1 {
+    color: blue;
+    font-weight: bold;
+}
+
+#page-title {
+    color: pink;
+}
+
+.title {
+    color: red !important;
+    font: 32px Helvetica, Arial, sans-serif;
+}
+
+a:link{
+ color: blue;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+a:visited {
+    color: yellow;
+}
+
+
+a:active {
+    color: red;
+}
+
+.footer {
+    color: #666;
+    background-color: #ccc;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 14px;
+}
+.footer a {
+    color: inherit;
+    text-decoration: underline;
+}
+
+nav a {
+    color: white;
+    background-color: #13a4a4;
+    padding: 5px 15px;
+    border-radius: 2px;
+    text-decoration: none;
+}

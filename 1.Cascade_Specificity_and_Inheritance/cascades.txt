@@ -1,0 +1,175 @@
+When declarations conflict, the cascade considers three things to resolve the difference:
+1 Stylesheet origin -
+          Where the styles come from. Your styles are applied in conjunction with
+          the browser’s default styles.
+2 Selector specificity -
+          Which selectors take precedence over which.
+3 Source order —
+          Order in which styles are declared in the stylesheet.
+
+-------------------------------------------------------------------------------------
+Terminology:-
+
+color: blue;
+ -> This is called declaration. This declaration is made up of property(color) and the
+    value(blue).
+
+ -> A group of declarations inside curly braces is called a declaration block. A declaration
+    block is preceded by a selector (in this case, body):
+ body {
+   color: black;
+   font-family: Helvetica;
+ }
+
+ -> Together, the selector and declaration block are called a ruleset.
+-------------------------------------------------------------------------------------
+
+1. Stylesheet Origin:-
+      -> The stylesheets you add to your web page aren't the only ones the browser applies.
+      -> There are different types, or origins, of stylesheets.
+      -> Yours are called author styles; there are also user agent styles, which are the
+         browser’s default styles.
+      -> User agent styles have lower priority, so your styles override them.
+
+     ! NOTE !
+        Some browsers let users define a user stylesheet. This is considered a third origin,
+        with a priority between user agent and author styles. User styles are rarely used
+        and beyond your control, so I’ve left them out for simplicity.
+
+     User Agent Styles:-
+       -> User agent styles vary slightly from browser to browser, but generally they do the same things:
+        headings (<h1> through <h6>) and paragraphs (<p>) are given a top and bottom margin,
+        lists (<ol> and <ul>) are given a left padding, and link colors and default font sizes are set.
+
+   Important Declarations:-
+   -> There’s an exception to the style origin rules: declarations that are marked as important.
+       A declaration can be marked important by adding !important
+       to the end of the declaration, before the semicolon:
+                   color: red !important;
+
+  ->The browser evaluates specificity in two parts:
+      1. Styles applied inline in the HTML and
+      2. Styles applied using a selector:-
+         -> The exact rules of specificity are:
+             If a selector has more IDs, it wins (that is, it’s more specific).
+             If that results in a tie, the selector with the most classes wins.
+             If that results in a tie, the selector with the most tag names wins.
+
+      Note:-
+      Pseudo-class selectors (for example, :hover) and attribute selectors (for example, [type="input"])
+      each have the same specificity as a class selector. The universal selector (*) and combinators (>, +, ~)
+      have no effect on specificity.
+
+      -> A common way to indicate the specificity is in a number form, often commas between
+         each number.
+         "Id's,Classes,Tags"
+         Ex 1:- #page #down .arrow p h1
+              we can represent as "2,1,2".
+         Ex 2: #page  -> "1,0,0"
+
+    ->  If the origin and the specificity are the same, then the declaration that appears
+        later in the stylesheet—or appears in a stylesheet included later on the page—takes
+        precedence.
+
+-------------------------------------------------------------------------------------
+LINK STYLES AND SOURCE ORDER:- LoVe/HAte
+   a:link, a:visited, a:hover, a:active
+
+--------------------------------------------------------------------------------------
+Cascaded Value:-
+   A value for a particular property applied to an element as a result of the cascade.
+--------------------------------------------------------------------------------------
+
+Inheritance:-
+ -> If an element has no cascaded value for a given property, it may inherit one from
+    an ancestor element.
+ -> Not all properties are inherited, however.
+ -> By default, only certain ones are.
+ -> They are primarily properties pertaining to
+    * text: color, font, font-family, font-size, font-weight, font-variant, font-style,
+            line-height, letter-spacing, text-align, text-indent, text-transform,
+            white-space, and word-spacing.
+
+    * list properties: list-style, list-style -type, list-style-position, and list-style-image.
+    * table border properties: border-collapse, border-spacing.
+      (Note:- These control border behavior of tables, not the more commonly used properties for
+              specifying borders for non-table elements.)
+
+--------------------------------------------------------------------------------------
+Special Values:-
+   -> There are two special values that you can apply to any property to help manipulate the
+      cascade:
+      1. inherit and
+      2. initial.
+
+      1.Inherit:-
+         Sometimes, you’ll want inheritance to take place when a cascaded value is preventing it.
+         To do this, you can use the keyword inherit. You can override another value with this, and
+         it will cause the element to inherit that value from its parent.
+
+      2.Initial:-
+       -> Sometimes you’ll find you have styles applied to an element that you want to undo.
+          You can do this by specifying the keyword initial.
+       -> Every CSS property has an initial, or default, value.
+       -> If you assign the value initial to that property, then it effectively resets to its default value.
+         (Note:- WARNING The initial keyword isn’t supported in any version of Internet Explorer or Opera Mini.
+                 It works in all other major browsers, including Edge, Microsoft's successor to IE11.)
+--------------------------------------------------------------------------------------
+
+Shorthand properties:-
+   -> Shorthand properties are properties that let you set the values of several other properties at one time.
+   Ex:- 1.font (shorthand property)
+       font-style, font-text
+        2.background
+        background-color, background-image
+
+Beware shorthands silently overriding other styles:-
+  -> Most shorthand properties let you omit certain values and only specify the bits you’re concerned with.
+     It’s important to know, however, that doing this still sets the omitted values; they’ll be set implicitly
+     to their initial value. This can silently override styles you specify elsewhere.
+   <h1 class="title">Hey there!</h1>
+
+  ex:-
+   h1{
+   font-weight: bold;
+   }
+   .title{
+   font: 32px Helvetica, Arial, sans-serif;
+   }
+
+   // We expect h1 is going to be displayed with bold and properties assigned with the
+      title class.
+   //But internally this what happens
+
+   h1 {
+     font-weight: bold;
+   }
+   .title {
+     font-style: normal;
+     font-variant: normal;
+     font-weight: normal;
+     font-stretch: normal;
+     line-height: normal;
+     font-size: 32px;
+     font-family: Helvetica, Arial, sans-serif;
+   }
+
+   //So it's over rides the previous values be aware or it.
+
+--------------------------------------------------------------------------------------
+
+Understanding the order of shorthand values:-
+  TOP, RIGHT, BOTTOM, LEFT:- TRouBLe is an mnemonic.
+
+  padding: 1em 2em 1em;
+    //2em applies to both left and right, whereas top padding is applied 1em and bottom padding is 1em
+
+ HORIZONTAL, VERTICAL:-
+   -> The TRouBLe mnemonic only applies to properties that apply individually to all four sides of the box.
+   -> Other properties only support up to two values. These include properties like background-position,
+      box-shadow, and text-shadow (although these aren't shorthand properties, strictly speaking).
+   -> Whereas padding: 1em 2em specifies the vertical top/bottom values first, followed by the horizontal
+      right/left values, background-position: 25% 75% specifies the horizontal right/left values first,
+       followed by the vertical top/bottom values.
+
+--------------------------------------------------------------------------------------

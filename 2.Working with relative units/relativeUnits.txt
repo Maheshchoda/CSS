@@ -1,0 +1,2 @@
+The power of relative values:-
+    1.CSS brings a late-binding of styles to the web page
